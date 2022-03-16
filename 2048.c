@@ -84,6 +84,7 @@ int main()
     int size = 4;
     printTitle();
     scanf("%d", &size);
+    if(size <= 1) size = 4;
     int n = size * size;
     NUMTYPE *table = (NUMTYPE*)malloc(n * sizeof(NUMTYPE));
     while(true)
