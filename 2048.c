@@ -52,8 +52,8 @@ typedef enum _colorCode{
     FG_WHITE = 97,
     FG_YELLOW = 33,
 }COLOR_CODE;
-const COLOR_CODE COLOR[11] = {FG_RED, FG_YELLOW, FG_MAGENTA, FG_BLUE, FG_CYAN, FG_LIGHT_YELLOW,
-                              FG_LIGHT_RED, FG_LIGHT_CYAN, FG_LIGHT_MAGENTA, FG_LIGHT_BLUE, FG_LIGHT_GREEN};
+const COLOR_CODE COLOR[11] = {FG_RED, FG_GREEN, FG_YELLOW, FG_BLUE, FG_MAGENTA, FG_CYAN,
+                              FG_LIGHT_GRAY, FG_DARK_GRAY, FG_LIGHT_RED, FG_LIGHT_GREEN, FG_LIGHT_YELLOW};
 int BEST_SCORE = 0;
 
 void clearScreen();
@@ -132,7 +132,12 @@ bool startGame(NUMTYPE *t, int size)
         if(!isWin && checkWin(t, n))
         {
             printf("\nYou are win!! Congratulations!\n");
-            if(confirmWinQuit(t, size, score, moves)) break;
+            isWin = true;
+            if(confirmWinQuit(t, size, score, moves)) 
+            {
+                if(confirmRestart(t, size, score, moves)) isRestart = true;
+                break;
+            }
         }
 
         if(checkGameOver(t, size))
@@ -398,7 +403,7 @@ void setConsoleCursorPosition()
 void printTitle()
 {
     #ifdef _WIN32
-    system("chcp 65001");
+    system("chcp 65001"); // UTF-8
     #endif
     clearScreen();
     printf(PADDING"-----------------------------------\n%s%dm", BASE, (int)FG_LIGHT_GREEN);
